@@ -131,7 +131,16 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
+# Where Django will collect static files for production
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Folders that contain your STATIC files (only for development)
+STATICFILES_DIRS = [
+    BASE_DIR / "static",       # optional local static folder
+    # BASE_DIR / "frontend/dist",  # if you are serving React build
+]
 
 # CORS (allow frontend origin)
 CORS_ALLOW_ALL_ORIGINS = True # change in production
