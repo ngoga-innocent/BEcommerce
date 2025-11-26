@@ -41,14 +41,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'allowed_to_post']
+        fields = ['username', 'email', 'allowed_to_post','phone_number', 'is_active', 'is_staff']
         read_only_fields = ['allowed_to_post']  # optional, only admin can change
 class AdminUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'phone_number', 'password', 'allowed_to_post', 'is_active']
+        fields = ['id', 'username', 'phone_number', 'password', 'allowed_to_post', 'is_active', 'is_staff']
 
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)

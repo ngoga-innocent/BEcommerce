@@ -3,7 +3,7 @@ from rest_framework import generics, permissions
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, UserUpdateSerializer, CustomTokenObtainPairSerializer,AdminUserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from rest_framework import viewsets
 User = get_user_model()
 
 # ------------------- Registration -------------------
@@ -23,12 +23,10 @@ class UserUpdateView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-class AdminUserListView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = AdminUserSerializer
-    permission_classes = [permissions.IsAdminUser]  # only admin
 
-class AdminUserDetailView(generics.RetrieveUpdateAPIView):
+
+class AdminUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AdminUserSerializer
-    permission_classes = [permissions.IsAdminUser]  # only admin
+    permission_classes = [permissions.IsAdminUser]  # only admins allowed
+
