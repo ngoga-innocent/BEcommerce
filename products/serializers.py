@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product,ProductCategory,ProductImages
+from .models import Product,ProductCategory,ProductImages,Ads
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +25,7 @@ class ProductSerializer(serializers.ModelSerializer):
     thumbnail_url = serializers.SerializerMethodField()
     product_images = ProductImagesSerializer(many=True, read_only=True)
     uploaded_by = serializers.CharField(source="user.username", read_only=True)
+    thumbnail = serializers.ImageField(required=False)
 
     class Meta:
         model = Product
@@ -59,3 +60,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return None
 
 
+class AdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ads
+        fields = "__all__"

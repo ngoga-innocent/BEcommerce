@@ -58,3 +58,11 @@ class ProductImages(models.Model):
     
     def __str__(self):
         return self.product.title
+class Ads(models.Model):
+    image = models.ImageField(upload_to='ads/',blank=True, null=True)
+    text = models.TextField()
+    active = models.BooleanField(default=True)  # Admin can turn ad ON/OFF
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Ad #{self.id}"
