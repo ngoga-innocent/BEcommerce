@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Product, ProductCategory,ProductImages,Ads
 from .serializers import ProductSerializer, ProductCategorySerializer,AdsSerializer
-
+from rest_framework.exceptions import PermissionDenied
 
 # -------------------- Product ViewSet --------------------
 class ProductViewSet(viewsets.ModelViewSet):
@@ -15,16 +15,40 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'description']
     lookup_field = "slug"
 
+    # Custom permission logic
     def get_permissions(self):
-        # Admin only for create/update/delete
-        if self.action in ['update', 'partial_update', 'destroy']:
-            return [permissions.IsAdminUser()]
-        elif self.action == 'create':
-            return [permissions.IsAuthenticated()]
-        # Read actions open to anyone
-        return [permissions.AllowAny()]
+        if self.action in ['create']:
+            return [permissions.IsAuthenticated()]  # Only logged-in users can create
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            return [permissions.IsAuthenticated()]  # Owner or admin check in perform_* methods
+        return [permissions.AllowAny()]  # Anyone can list/view
+
+    # Ensure only owner or admin can modify/delete
+    def perform_update(self, serializer):
+        instance = serializer.instance
+        if self.request.user != instance.user and not self.request.user.is_staff:
+            raise PermissionDenied("You cannot edit someone else's product.")
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        if self.request.user != instance.user and not self.request.user.is_staff:
+            raise PermissionDenied("You cannot delete someone else's product.")
+        instance.delete()
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    # Endpoint to get logged-in user's products
+    
+
+    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
+    def my(self, request):
+        """
+        Return products of the logged-in user
+        """
+        products = Product.objects.filter(user=request.user).order_by("-created_at")
+        serializer = self.get_serializer(products, many=True)
+        return Response(serializer.data)
         
 
         

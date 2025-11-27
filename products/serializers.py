@@ -26,13 +26,13 @@ class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImagesSerializer(many=True, read_only=True)
     uploaded_by = serializers.CharField(source="user.username", read_only=True)
     thumbnail = serializers.ImageField(required=False)
-
+    category_data=ProductCategorySerializer(source='category', read_only=True)
     class Meta:
         model = Product
         fields = [
             'id', 'title', 'slug', 'description', 'price','currency',
             'thumbnail', 'thumbnail_url', 'contact_phone',
-            'whatsapp_number', 'active', 'created_at',
+            'whatsapp_number', 'active', 'created_at','category_data',
             'category', 'product_images', 'uploaded_by'
         ]
         read_only_fields = ['slug', 'created_at', 'thumbnail_url', 'uploaded_by']
