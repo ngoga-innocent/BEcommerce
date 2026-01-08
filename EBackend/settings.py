@@ -91,7 +91,22 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'umuzikig_umuzikigatolika',      # replace with your actual DB name
+        'NAME': 'umuzylvc_nextmarket',      # replace with your actual DB name
+        'USER': 'umuzylvc_admin',     # replace with your actual DB user
+        # 'USER': 'umuzikig_ngoga',     # replace with your actual DB user
+        'PASSWORD': 'Ngoga@1patrick',     # your password
+        # 'PASSWORD': 'Ngoga@1Patrick',     # your password
+        'HOST': 'localhost',                # usually localhost
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
