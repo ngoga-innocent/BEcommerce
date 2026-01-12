@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product,ProductCategory,ProductImages
+from .models import Product,ProductCategory,ProductImages,HomepageBanner,LoginBanner
 
 
 class ProductImageInline(admin.TabularInline):
@@ -17,3 +17,9 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = ('name','slug')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
+@admin.register(HomepageBanner)
+class HomepageBannerAdmin(admin.ModelAdmin):
+    list_display = ('caption','created_at')
+@admin.register(LoginBanner)
+class LoginBannerAdmin(admin.ModelAdmin):
+    list_display = ('caption','created_at')
