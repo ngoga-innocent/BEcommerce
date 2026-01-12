@@ -2,8 +2,8 @@ from rest_framework import viewsets, permissions, filters
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Product, ProductCategory,ProductImages,Ads
-from .serializers import ProductSerializer, ProductCategorySerializer,AdsSerializer
+from .models import Product, ProductCategory,ProductImages,Ads,HomepageBanner,LoginBanner
+from .serializers import ProductSerializer, ProductCategorySerializer,AdsSerializer,HomeBannerSerializer,LoginBannerSerializer
 from rest_framework.exceptions import PermissionDenied
 
 # -------------------- Product ViewSet --------------------
@@ -98,6 +98,20 @@ class AdViewSet(viewsets.ModelViewSet):
             # Deactivate all other ads
             Ads.objects.exclude(id=ad.id).update(active=False)
         serializer.save()
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]
+class HomeBannerViewSet(viewsets.ModelViewSet):
+    queryset=HomepageBanner.objects.all().order_by('-id')
+    serializer_class=HomeBannerSerializer
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]
+class LoginBannerViewSet(viewsets.ModelViewSet):
+    queryset=LoginBanner.objects.all().order_by('-id')
+    serializer_class=LoginBannerSerializer
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             return [permissions.IsAdminUser()]

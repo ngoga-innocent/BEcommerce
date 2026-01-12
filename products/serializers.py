@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product,ProductCategory,ProductImages,Ads
+from .models import Product,ProductCategory,ProductImages,Ads,HomepageBanner,LoginBanner
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,4 +63,12 @@ class ProductSerializer(serializers.ModelSerializer):
 class AdsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ads
+        fields = "__all__"
+class HomeBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomepageBanner
+        fields = "__all__"
+class LoginBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoginBanner
         fields = "__all__"

@@ -67,3 +67,21 @@ class Ads(models.Model):
 
     def __str__(self):
         return f"Ad #{self.id}"
+class HomepageBanner(models.Model):
+    image = models.ImageField(upload_to='banners/')
+    title = models.CharField(max_length=200, blank=True)
+    subtitle = models.CharField(max_length=300, blank=True)
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title if self.title else f"Banner #{self.id}"
+class LoginBanner(models.Model):
+    image = models.ImageField(upload_to='login_banners/')
+    title = models.CharField(max_length=200, blank=True)
+    subtitle = models.CharField(max_length=300, blank=True)
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title if self.title else f"Login Banner #{self.id}"
