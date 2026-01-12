@@ -19,7 +19,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 @admin.register(HomepageBanner)
 class HomepageBannerAdmin(admin.ModelAdmin):
-    list_display = ('caption','created_at')
+    list_display = ('created_at',)
 @admin.register(LoginBanner)
 class LoginBannerAdmin(admin.ModelAdmin):
-    list_display = ('caption','created_at')
+    list_display = ('created_at',)
