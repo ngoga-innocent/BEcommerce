@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,22 +92,22 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'umuzikig_umuzikigatolika',      # replace with your actual DB name
-        'NAME': 'umuzylvc_nextmarket',      # replace with your actual DB name
-        'USER': 'umuzylvc_admin',     # replace with your actual DB user
-        # 'USER': 'umuzikig_ngoga',     # replace with your actual DB user
-        'PASSWORD': 'Ngoga@1patrick',     # your password
-        # 'PASSWORD': 'Ngoga@1Patrick',     # your password
-        'HOST': 'localhost',                # usually localhost
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         # 'NAME': 'umuzikig_umuzikigatolika',      # replace with your actual DB name
+#         'NAME': 'umuzylvc_nextmarket',      # replace with your actual DB name
+#         'USER': 'umuzylvc_admin',     # replace with your actual DB user
+#         # 'USER': 'umuzikig_ngoga',     # replace with your actual DB user
+#         'PASSWORD': 'Ngoga@1patrick',     # your password
+#         # 'PASSWORD': 'Ngoga@1Patrick',     # your password
+#         'HOST': 'localhost',                # usually localhost
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'charset': 'utf8mb4',
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -142,14 +143,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # STATIC_URL = '/static/'
 
 # Where Django will collect static files for production
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Folders that contain your STATIC files (only for development)
 STATICFILES_DIRS = [
@@ -158,7 +164,13 @@ STATICFILES_DIRS = [
 ]
 
 # CORS (allow frontend origin)
-CORS_ALLOW_ALL_ORIGINS = True # change in production
+# CORS_ALLOW_ALL_ORIGINS = True # change in production
+CORS_ALLOWED_ORIGINS = [
+    'https://mynextmarket.com',
+    'https://www.mynextmarket.com',
+]
+CORS_ALLOW_CREDENTIALS = True
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
