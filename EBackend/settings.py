@@ -67,7 +67,7 @@ ROOT_URLCONF = 'EBackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # add this
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,22 +92,22 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'umuzikig_umuzikigatolika',      # replace with your actual DB name
-        'NAME': 'umuzylvc_nextmarket',      # replace with your actual DB name
-        'USER': 'umuzylvc_admin',     # replace with your actual DB user
-        # 'USER': 'umuzikig_ngoga',     # replace with your actual DB user
-        'PASSWORD': 'Ngoga@1patrick',     # your password
-        # 'PASSWORD': 'Ngoga@1Patrick',     # your password
-        'HOST': 'localhost',                # usually localhost
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         # 'NAME': 'umuzikig_umuzikigatolika',      # replace with your actual DB name
+#         'NAME': 'umuzylvc_nextmarket',      # replace with your actual DB name
+#         'USER': 'umuzylvc_admin',     # replace with your actual DB user
+#         # 'USER': 'umuzikig_ngoga',     # replace with your actual DB user
+#         'PASSWORD': 'Ngoga@1patrick',     # your password
+#         # 'PASSWORD': 'Ngoga@1Patrick',     # your password
+#         'HOST': 'localhost',                # usually localhost
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'charset': 'utf8mb4',
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -168,6 +168,7 @@ STATICFILES_DIRS = [
 CORS_ALLOWED_ORIGINS = [
     'https://mynextmarket.com',
     'https://www.mynextmarket.com',
+    'http://localhost:5173',
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -189,3 +190,15 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Accounts.CustomUser'
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "mynextmarket.com"          # Namecheap SMTP server
+EMAIL_PORT = 465                          # SSL port
+EMAIL_USE_TLS = False                     # disable TLS
+EMAIL_USE_SSL = True                      # enable SSL for port 465
+
+EMAIL_HOST_USER = "no-reply@mynextmarket.com"
+EMAIL_HOST_PASSWORD = "Ngoga@1patrick"
+
+DEFAULT_FROM_EMAIL = "My Next Market <no-reply@mynextmarket.com>"

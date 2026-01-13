@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product,ProductCategory,ProductImages,Ads,HomepageBanner,LoginBanner
+from .models import Product,ProductCategory,ProductImages,Ads,HomepageBanner,LoginBanner,VideoAds
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'slug', 'description', 'price','currency',
             'thumbnail', 'thumbnail_url', 'contact_phone',
-            'whatsapp_number', 'active', 'created_at','category_data',
+            'whatsapp_number', 'location', 'views','active', 'created_at','category_data',
             'category', 'product_images', 'uploaded_by'
         ]
         read_only_fields = ['slug', 'created_at', 'thumbnail_url', 'uploaded_by']
@@ -71,4 +71,8 @@ class HomeBannerSerializer(serializers.ModelSerializer):
 class LoginBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = LoginBanner
+        fields = "__all__"
+class VideoAdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoAds
         fields = "__all__"

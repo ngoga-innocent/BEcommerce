@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product,ProductCategory,ProductImages,HomepageBanner,LoginBanner
+from .models import Product,ProductCategory,ProductImages,HomepageBanner,LoginBanner,VideoAds
 
 
 class ProductImageInline(admin.TabularInline):
@@ -22,4 +22,7 @@ class HomepageBannerAdmin(admin.ModelAdmin):
     list_display = ('created_at',)
 @admin.register(LoginBanner)
 class LoginBannerAdmin(admin.ModelAdmin):
+    list_display = ('created_at',)
+@admin.register(VideoAds)
+class VideoAdsAdmin(admin.ModelAdmin):
     list_display = ('created_at',)

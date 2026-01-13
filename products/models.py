@@ -32,6 +32,8 @@ class Product(models.Model):
     category=models.ForeignKey(ProductCategory, on_delete=models.SET_NULL,null=True,blank=True,related_name='products_category')
     currency=models.CharField(max_length=10, default='USD')
     price = models.DecimalField(max_digits=12, decimal_places=2)
+    location=models.CharField(max_length=200, blank=True)
+    views=models.PositiveIntegerField(default=0)
     thumbnail = models.ImageField(upload_to='products/')
     contact_phone = models.CharField(max_length=32, blank=True)
     whatsapp_number = models.CharField(max_length=32, blank=True)
@@ -70,7 +72,7 @@ class Ads(models.Model):
 class HomepageBanner(models.Model):
     image = models.ImageField(upload_to='banners/')
     title = models.CharField(max_length=200, blank=True)
-    subtitle = models.CharField(max_length=300, blank=True)
+    caption = models.CharField(max_length=300, blank=True)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -79,9 +81,27 @@ class HomepageBanner(models.Model):
 class LoginBanner(models.Model):
     image = models.ImageField(upload_to='login_banners/')
     title = models.CharField(max_length=200, blank=True)
-    subtitle = models.CharField(max_length=300, blank=True)
+    caption = models.CharField(max_length=300, blank=True)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title if self.title else f"Login Banner #{self.id}"
+class VideoAds(models.Model):
+    video = models.FileField(upload_to='video_ads/', blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True)
+    caption = models.TextField(blank=True)
+    active = models.BooleanField(default=True)  # Admin can turn ad ON/OFF
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Video Ad #{self.id}"
+class ProductView(models.Model):
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="view_logs")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    ip_address = models.GenericIPAddressField()
+    user_agent = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("product", "user", "ip_address")
