@@ -38,7 +38,7 @@ def send_new_product_email(sender, instance, created, **kwargs):
             "product": instance,
             "site_name": "My Next Market",
             "product_url": f"https://{domain}/products/{instance.slug}",
-            "image_url": f"https://{domain}{instance.thumbnail.url}" if instance.thumbnail else "",
+            "image_url": f"https://{domain}/{instance.thumbnail.url}" if instance.thumbnail else "",
         }
 
         html_content = render_to_string(
