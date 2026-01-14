@@ -40,6 +40,7 @@ class AdminUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AdminUserSerializer
     permission_classes = [permissions.IsAdminUser]  # only admins allowed
+#Client Views 
 class ForgotPasswordAPIView(APIView):
     permission_classes = []
 
@@ -57,7 +58,7 @@ class ForgotPasswordAPIView(APIView):
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 # Prevent email enumeration
-                return Response({"error": True,"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": True,"detail": "User with this Email not found"}, status=status.HTTP_404_NOT_FOUND)
 
             # 2️⃣ Generate OTP
             try:

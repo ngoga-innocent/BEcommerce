@@ -1,6 +1,6 @@
 # accounts/urls.py
 from django.urls import path
-from .views import RegisterView, AdminUserViewSet
+from .views import RegisterView, AdminUserViewSet,UserUpdateView
 from .views import (
     ForgotPasswordAPIView,
     VerifyResetOTPAPIView,
@@ -12,6 +12,7 @@ router.register(r"users", AdminUserViewSet)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
+    path('profile/', UserUpdateView.as_view(), name='user_update'),
     path("auth/forgot-password/", ForgotPasswordAPIView.as_view()),
     path("auth/verify-reset-otp/", VerifyResetOTPAPIView.as_view()),
     path("auth/reset-password/", ResetPasswordAPIView.as_view()),

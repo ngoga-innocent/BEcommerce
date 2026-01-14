@@ -5,6 +5,7 @@ from django.conf import settings
 import uuid
 class CustomUser(AbstractUser):
     # Make email optional
+    profile_image=models.ImageField(upload_to='profile_images/', blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     phone_number = models.CharField(max_length=32, unique=True)  # required for registration
     allowed_to_post = models.BooleanField(default=False)
